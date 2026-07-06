@@ -1,8 +1,9 @@
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL
+console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL)
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -48,8 +49,10 @@ apiClient.interceptors.response.use(
         isRedirectingToLogin = true
 
         const lastUsername = localStorage.getItem('lastUsername')
+
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+
         if (lastUsername) {
           localStorage.setItem('lastUsername', lastUsername)
         }
