@@ -4,14 +4,14 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
   ci:
+    name: Lint + Build Check
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -23,12 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
+      - name: Run Lint
         run: npm run lint
 
-      - name: Build Check
+      - name: Build (verification only)
         env:
-          # Only for CI build verification
           VITE_API_BASE_URL: http://localhost:8080
           VITE_WS_URL: ws://localhost:8080/ws
         run: npm run build
