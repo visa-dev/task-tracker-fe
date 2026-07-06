@@ -5,8 +5,10 @@ const taskService = {
   getTaskById: (id) => apiClient.get(`/tasks/${id}`),
   createTask: (payload) => apiClient.post('/tasks', payload),
   updateTask: (id, payload) => apiClient.put(`/tasks/${id}`, payload),
-  updateTaskStatus: (id, status) => apiClient.patch(`/tasks/${id}/status`, { status }),
-  assignTask: (id, ownerId) => apiClient.patch(`/tasks/${id}/assign`, { ownerId }),
+  updateTaskStatus: (id, status) =>
+    apiClient.patch(`/tasks/${id}/status`, { status }),
+  assignTask: (id, ownerId) =>
+    apiClient.patch(`/tasks/${id}/assign`, { ownerId }),
   deleteTask: (id) => apiClient.delete(`/tasks/${id}`),
   getStats: () => apiClient.get('/tasks/stats'),
 }

@@ -45,7 +45,11 @@ export default function Login() {
       const data = err.response?.data
       const status = err.response?.status
 
-      if (data?.data && typeof data.data === 'object' && !Array.isArray(data.data)) {
+      if (
+        data?.data &&
+        typeof data.data === 'object' &&
+        !Array.isArray(data.data)
+      ) {
         // Field-level validation errors (e.g. blank username)
         setErrors(data.data)
       } else if (status === 401) {
@@ -73,7 +77,10 @@ export default function Login() {
 
         {sessionExpired && (
           <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-sm text-amber-800">
-            Your session expired. {form.username ? 'Just enter your password to continue.' : 'Please log in again.'}
+            Your session expired.{' '}
+            {form.username
+              ? 'Just enter your password to continue.'
+              : 'Please log in again.'}
           </div>
         )}
 
@@ -88,7 +95,9 @@ export default function Login() {
               autoFocus={!sessionExpired}
               required
             />
-            {errors.username && <p className="mt-1 text-xs text-red-600">{errors.username}</p>}
+            {errors.username && (
+              <p className="mt-1 text-xs text-red-600">{errors.username}</p>
+            )}
           </div>
           <div>
             <label className="label-modern">Password</label>
@@ -101,16 +110,25 @@ export default function Login() {
               autoFocus={sessionExpired}
               required
             />
-            {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-600">{errors.password}</p>
+            )}
           </div>
-          <button className="btn-primary w-full" type="submit" disabled={loading}>
+          <button
+            className="btn-primary w-full"
+            type="submit"
+            disabled={loading}
+          >
             {loading ? 'Logging in…' : 'Log in'}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Don't have an account?{' '}
-          <Link to="/register" className="font-medium text-brand-600 hover:text-brand-700">
+          <Link
+            to="/register"
+            className="font-medium text-brand-600 hover:text-brand-700"
+          >
             Register
           </Link>
         </p>

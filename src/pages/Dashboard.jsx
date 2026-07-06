@@ -27,7 +27,11 @@ export default function Dashboard() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const [modalState, setModalState] = useState({ open: false, mode: 'create', task: null })
+  const [modalState, setModalState] = useState({
+    open: false,
+    mode: 'create',
+    task: null,
+  })
   const [pendingDelete, setPendingDelete] = useState(null)
   const [deleting, setDeleting] = useState(false)
 
@@ -39,7 +43,11 @@ export default function Dashboard() {
   const fetchTasks = useCallback(async () => {
     setLoading(true)
     try {
-      const params = { page: pageRef.current, size: PAGE_SIZE, ...filtersRef.current }
+      const params = {
+        page: pageRef.current,
+        size: PAGE_SIZE,
+        ...filtersRef.current,
+      }
       const res = await taskService.getTasks(params)
       const data = res.data.data
       setTasks(data.content)
@@ -68,7 +76,8 @@ export default function Dashboard() {
   // Admin-only: user list for the owner filter / assign dropdowns
   useEffect(() => {
     if (isAdmin) {
-      userService.getAllUsers()
+      userService
+        .getAllUsers()
         .then((res) => setUsers(res.data.data))
         .catch(() => toast.error('Failed to load users'))
     }
@@ -90,9 +99,12 @@ export default function Dashboard() {
     setPage(0)
   }
 
-  const openCreateModal = () => setModalState({ open: true, mode: 'create', task: null })
-  const openEditModal = (task) => setModalState({ open: true, mode: 'edit', task })
-  const closeModal = () => setModalState({ open: false, mode: 'create', task: null })
+  const openCreateModal = () =>
+    setModalState({ open: true, mode: 'create', task: null })
+  const openEditModal = (task) =>
+    setModalState({ open: true, mode: 'edit', task })
+  const closeModal = () =>
+    setModalState({ open: false, mode: 'create', task: null })
 
   const handleModalSubmit = async (payload) => {
     try {
@@ -169,18 +181,35 @@ export default function Dashboard() {
             {isAdmin ? 'All Tasks' : 'My Tasks'}
           </h1>
           <p className="mt-1 text-sm text-slate-500">
-            {isAdmin ? 'Manage tasks across every user.' : 'Track and update your tasks.'}
+            {isAdmin
+              ? 'Manage tasks across every user.'
+              : 'Track and update your tasks.'}
           </p>
         </div>
         <button className="btn-primary" onClick={openCreateModal}>
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4v16m8-8H4"
+            />
           </svg>
           New Task
         </button>
       </div>
 
-      <SummaryCards stats={stats} isAdmin={isAdmin} filters={filters} onChange={handleFiltersChange} />
+      <SummaryCards
+        stats={stats}
+        isAdmin={isAdmin}
+        filters={filters}
+        onChange={handleFiltersChange}
+      />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
         <div>
@@ -197,11 +226,20 @@ export default function Dashboard() {
               onRequestAssign={requestAssign}
             />
           )}
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </div>
 
         <div className="lg:order-last">
-          <Filters isAdmin={isAdmin} users={users} filters={filters} onChange={handleFiltersChange} />
+          <Filters
+            isAdmin={isAdmin}
+            users={users}
+            filters={filters}
+            onChange={handleFiltersChange}
+          />
         </div>
       </div>
 
@@ -219,7 +257,11 @@ export default function Dashboard() {
       <ConfirmDialog
         open={!!pendingDelete}
         title="Delete this task?"
-        message={pendingDelete ? `"${pendingDelete.title}" will be permanently deleted. This can't be undone.` : ''}
+        message={
+          pendingDelete
+            ? `"${pendingDelete.title}" will be permanently deleted. This can't be undone.`
+            : ''
+        }
         confirmLabel="Delete"
         tone="danger"
         loading={deleting}
@@ -230,7 +272,11 @@ export default function Dashboard() {
       <ConfirmDialog
         open={!!pendingAssign}
         title="Assign this task?"
-        message={pendingAssign ? `Assign "${pendingAssign.taskTitle}" to ${pendingAssign.username}?` : ''}
+        message={
+          pendingAssign
+            ? `Assign "${pendingAssign.taskTitle}" to ${pendingAssign.username}?`
+            : ''
+        }
         confirmLabel="Assign"
         tone="default"
         loading={assigning}

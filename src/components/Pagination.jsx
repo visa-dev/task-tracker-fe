@@ -20,7 +20,8 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         Prev
       </button>
       <span className="text-sm text-slate-500">
-        Page <span className="font-medium text-slate-700">{page + 1}</span> of {totalPages}
+        Page <span className="font-medium text-slate-700">{page + 1}</span> of{' '}
+        {totalPages}
       </span>
       <button
         className="btn-secondary px-3 py-2 text-xs"

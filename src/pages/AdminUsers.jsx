@@ -42,8 +42,13 @@ export default function AdminUsers() {
     if (!pendingToggle) return
     setSaving(true)
     try {
-      await userService.setUserStatus(pendingToggle.id, pendingToggle.nextActive)
-      toast.success(pendingToggle.nextActive ? 'User activated' : 'User deactivated')
+      await userService.setUserStatus(
+        pendingToggle.id,
+        pendingToggle.nextActive,
+      )
+      toast.success(
+        pendingToggle.nextActive ? 'User activated' : 'User deactivated',
+      )
       setPendingToggle(null)
       fetchUsers()
     } catch (err) {
@@ -57,24 +62,38 @@ export default function AdminUsers() {
     <Layout>
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
-        <p className="mt-1 text-sm text-slate-500">Activate or deactivate accounts. Deactivated users cannot log in.</p>
+        <p className="mt-1 text-sm text-slate-500">
+          Activate or deactivate accounts. Deactivated users cannot log in.
+        </p>
       </div>
 
       <div className="mb-6 grid grid-cols-3 gap-4">
         <div className="card-surface relative overflow-hidden p-4">
           <span className="absolute inset-y-0 left-0 w-1 bg-brand-500" />
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Total Users</p>
-          <p className="mt-0.5 text-2xl font-semibold text-slate-900">{counts.total}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Total Users
+          </p>
+          <p className="mt-0.5 text-2xl font-semibold text-slate-900">
+            {counts.total}
+          </p>
         </div>
         <div className="card-surface relative overflow-hidden p-4">
           <span className="absolute inset-y-0 left-0 w-1 bg-green-500" />
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Active</p>
-          <p className="mt-0.5 text-2xl font-semibold text-slate-900">{counts.active}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Active
+          </p>
+          <p className="mt-0.5 text-2xl font-semibold text-slate-900">
+            {counts.active}
+          </p>
         </div>
         <div className="card-surface relative overflow-hidden p-4">
           <span className="absolute inset-y-0 left-0 w-1 bg-slate-400" />
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Deactivated</p>
-          <p className="mt-0.5 text-2xl font-semibold text-slate-900">{counts.deactivated}</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Deactivated
+          </p>
+          <p className="mt-0.5 text-2xl font-semibold text-slate-900">
+            {counts.deactivated}
+          </p>
         </div>
       </div>
 
@@ -97,7 +116,9 @@ export default function AdminUsers() {
                   <td className="px-5 py-3.5 font-medium text-slate-800">
                     {u.username}
                     {u.id === currentUser?.id && (
-                      <span className="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-normal text-slate-500">You</span>
+                      <span className="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-normal text-slate-500">
+                        You
+                      </span>
                     )}
                   </td>
                   <td className="px-5 py-3.5 text-slate-600">
@@ -106,10 +127,14 @@ export default function AdminUsers() {
                   <td className="px-5 py-3.5">
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
-                        u.active ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'
+                        u.active
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-slate-200 text-slate-600'
                       }`}
                     >
-                      <span className={`h-1.5 w-1.5 rounded-full ${u.active ? 'bg-green-500' : 'bg-slate-400'}`} />
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${u.active ? 'bg-green-500' : 'bg-slate-400'}`}
+                      />
                       {u.active ? 'Active' : 'Deactivated'}
                     </span>
                   </td>
@@ -117,7 +142,11 @@ export default function AdminUsers() {
                     <button
                       onClick={() => requestToggle(u)}
                       disabled={u.id === currentUser?.id}
-                      title={u.id === currentUser?.id ? "You can't deactivate your own account" : undefined}
+                      title={
+                        u.id === currentUser?.id
+                          ? "You can't deactivate your own account"
+                          : undefined
+                      }
                       className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-40 ${
                         u.active
                           ? 'bg-red-50 text-red-600 hover:bg-red-100'
@@ -136,7 +165,11 @@ export default function AdminUsers() {
 
       <ConfirmDialog
         open={!!pendingToggle}
-        title={pendingToggle?.nextActive ? 'Activate this user?' : 'Deactivate this user?'}
+        title={
+          pendingToggle?.nextActive
+            ? 'Activate this user?'
+            : 'Deactivate this user?'
+        }
         message={
           pendingToggle?.nextActive
             ? `${pendingToggle?.username} will be able to log in again.`

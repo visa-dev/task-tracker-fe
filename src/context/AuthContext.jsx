@@ -32,7 +32,9 @@ export function AuthProvider({ children }) {
   }, [navigate])
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, isAuthenticated: !!token }}
+    >
       {children}
     </AuthContext.Provider>
   )

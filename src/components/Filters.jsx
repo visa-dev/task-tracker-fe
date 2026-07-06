@@ -6,15 +6,25 @@ const PRIORITY_OPTIONS = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']
 
 function ChevronDown() {
   return (
-    <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg
+      className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
   )
 }
 
 const isEmpty = (filters) =>
-  !filters.status && !filters.priority && !filters.ownerId && !filters.search &&
-  !filters.unassigned && !filters.overdue
+  !filters.status &&
+  !filters.priority &&
+  !filters.ownerId &&
+  !filters.search &&
+  !filters.unassigned &&
+  !filters.overdue
 
 export default function Filters({ isAdmin, users, filters, onChange }) {
   const update = (patch) => onChange({ ...filters, ...patch })
@@ -38,8 +48,18 @@ export default function Filters({ isAdmin, users, filters, onChange }) {
         <div>
           <label className="label-modern">Search by title</label>
           <div className="relative">
-            <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" />
+            <svg
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+              />
             </svg>
             <input
               className="input-modern pl-9"
@@ -60,7 +80,9 @@ export default function Filters({ isAdmin, users, filters, onChange }) {
             >
               <option value="">All statuses</option>
               {STATUS_OPTIONS.map((s) => (
-                <option key={s} value={s}>{s.replace('_', ' ')}</option>
+                <option key={s} value={s}>
+                  {s.replace('_', ' ')}
+                </option>
               ))}
             </select>
             <ChevronDown />
@@ -73,11 +95,15 @@ export default function Filters({ isAdmin, users, filters, onChange }) {
             <select
               className="select-modern"
               value={filters.priority || ''}
-              onChange={(e) => update({ priority: e.target.value || undefined })}
+              onChange={(e) =>
+                update({ priority: e.target.value || undefined })
+              }
             >
               <option value="">All priorities</option>
               {PRIORITY_OPTIONS.map((p) => (
-                <option key={p} value={p}>{p.charAt(0) + p.slice(1).toLowerCase()}</option>
+                <option key={p} value={p}>
+                  {p.charAt(0) + p.slice(1).toLowerCase()}
+                </option>
               ))}
             </select>
             <ChevronDown />
@@ -114,7 +140,9 @@ export default function Filters({ isAdmin, users, filters, onChange }) {
               type="checkbox"
               className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
               checked={!!filters.unassigned}
-              onChange={(e) => update({ unassigned: e.target.checked || undefined })}
+              onChange={(e) =>
+                update({ unassigned: e.target.checked || undefined })
+              }
             />
             Unassigned only
           </label>
