@@ -1,16 +1,17 @@
-name: Frontend CI (Production Ready)
+name: Frontend CI
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - main
+  pull_request:
 
 jobs:
   ci:
-    name: Lint + Build Check
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -22,11 +23,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Lint
+      - name: Lint
         run: npm run lint
 
-      - name: Build (CI verification only)
+      - name: Build Check
         env:
+          # Only for CI build verification
           VITE_API_BASE_URL: http://localhost:8080
           VITE_WS_URL: ws://localhost:8080/ws
         run: npm run build
