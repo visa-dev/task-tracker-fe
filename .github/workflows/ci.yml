@@ -3,7 +3,6 @@ name: Frontend CI (Production Ready)
 on:
   push:
     branches: ['main']
-  pull_request:
 
 jobs:
   ci:
