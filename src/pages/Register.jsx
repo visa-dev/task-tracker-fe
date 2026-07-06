@@ -42,29 +42,58 @@ export default function Register() {
           <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600 text-lg font-bold text-white">
             T
           </div>
-          <h1 className="text-xl font-semibold text-slate-900">Create account</h1>
-          <p className="mt-1 text-sm text-slate-500">Get started with Task Tracker</p>
+          <h1 className="text-xl font-semibold text-slate-900">
+            Create account
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Get started with Task Tracker
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="label-modern">Username</label>
-            <input className="input-modern" name="username" value={form.username} onChange={handleChange} autoFocus required />
-            {errors.username && <p className="mt-1 text-xs text-red-600">{errors.username}</p>}
+            <input
+              className="input-modern"
+              name="username"
+              value={form.username}
+              onChange={handleChange}
+              autoFocus
+              required
+            />
+            {errors.username && (
+              <p className="mt-1 text-xs text-red-600">{errors.username}</p>
+            )}
           </div>
           <div>
             <label className="label-modern">Password</label>
-            <input className="input-modern" type="password" name="password" value={form.password} onChange={handleChange} required />
-            {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
+            <input
+              className="input-modern"
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-600">{errors.password}</p>
+            )}
           </div>
-          <button className="btn-primary w-full" type="submit" disabled={loading}>
+          <button
+            className="btn-primary w-full"
+            type="submit"
+            disabled={loading}
+          >
             {loading ? 'Creating account…' : 'Register'}
           </button>
         </form>
 
         <p className="mt-6 text-center text-sm text-slate-500">
           Already have an account?{' '}
-          <Link to="/login" className="font-medium text-brand-600 hover:text-brand-700">
+          <Link
+            to="/login"
+            className="font-medium text-brand-600 hover:text-brand-700"
+          >
             Log in
           </Link>
         </p>

@@ -9,13 +9,26 @@ const todayStr = () => new Date().toISOString().split('T')[0]
 
 function ChevronDown() {
   return (
-    <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg
+      className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
   )
 }
 
-export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmit }) {
+export default function TaskModal({
+  mode,
+  task,
+  isAdmin,
+  users,
+  onClose,
+  onSubmit,
+}) {
   const isEdit = mode === 'edit'
   const isUnassigned = isEdit && !!task?.unassigned
 
@@ -29,7 +42,7 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
       ownerId: '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   )
 
   const [form, setForm] = useState(initialForm)
@@ -42,7 +55,8 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
   const titleMissing = touched && !form.title.trim()
   const descriptionMissing = touched && !form.description.trim()
   const dueDateMissing = touched && !form.dueDate
-  const dueDateInPast = touched && form.dueDate && !isEdit && form.dueDate < todayStr()
+  const dueDateInPast =
+    touched && form.dueDate && !isEdit && form.dueDate < todayStr()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -118,41 +132,76 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
 
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
-            <label className="label-modern">Title <span className="text-red-500">*</span></label>
+            <label className="label-modern">
+              Title <span className="text-red-500">*</span>
+            </label>
             <input
               className={`input-modern ${titleMissing ? 'border-red-400 focus:border-red-500 focus:ring-red-100' : ''}`}
-              name="title" value={form.title} onChange={handleChange}
+              name="title"
+              value={form.title}
+              onChange={handleChange}
             />
-            {titleMissing && <p className="mt-1 text-xs text-red-600">Title is required</p>}
+            {titleMissing && (
+              <p className="mt-1 text-xs text-red-600">Title is required</p>
+            )}
           </div>
 
           <div>
-            <label className="label-modern">Description <span className="text-red-500">*</span></label>
+            <label className="label-modern">
+              Description <span className="text-red-500">*</span>
+            </label>
             <textarea
               className={`input-modern resize-none ${descriptionMissing ? 'border-red-400 focus:border-red-500 focus:ring-red-100' : ''}`}
-              name="description" rows={3} value={form.description} onChange={handleChange}
+              name="description"
+              rows={3}
+              value={form.description}
+              onChange={handleChange}
             />
-            {descriptionMissing && <p className="mt-1 text-xs text-red-600">Description is required</p>}
+            {descriptionMissing && (
+              <p className="mt-1 text-xs text-red-600">
+                Description is required
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="label-modern">Due Date <span className="text-red-500">*</span></label>
+              <label className="label-modern">
+                Due Date <span className="text-red-500">*</span>
+              </label>
               <input
-                className={`input-modern ${(dueDateMissing || dueDateInPast) ? 'border-red-400 focus:border-red-500 focus:ring-red-100' : ''}`}
-                type="date" name="dueDate" value={form.dueDate} onChange={handleChange}
+                className={`input-modern ${dueDateMissing || dueDateInPast ? 'border-red-400 focus:border-red-500 focus:ring-red-100' : ''}`}
+                type="date"
+                name="dueDate"
+                value={form.dueDate}
+                onChange={handleChange}
                 min={!isEdit ? todayStr() : undefined}
               />
-              {dueDateMissing && <p className="mt-1 text-xs text-red-600">Due date is required</p>}
-              {dueDateInPast && <p className="mt-1 text-xs text-red-600">Due date can't be in the past</p>}
+              {dueDateMissing && (
+                <p className="mt-1 text-xs text-red-600">
+                  Due date is required
+                </p>
+              )}
+              {dueDateInPast && (
+                <p className="mt-1 text-xs text-red-600">
+                  Due date can't be in the past
+                </p>
+              )}
             </div>
 
             <div>
               <label className="label-modern">Priority</label>
               <div className="relative">
-                <select className="select-modern" name="priority" value={form.priority} onChange={handleChange}>
+                <select
+                  className="select-modern"
+                  name="priority"
+                  value={form.priority}
+                  onChange={handleChange}
+                >
                   {ALL_PRIORITIES.map((p) => (
-                    <option key={p} value={p}>{p.charAt(0) + p.slice(1).toLowerCase()}</option>
+                    <option key={p} value={p}>
+                      {p.charAt(0) + p.slice(1).toLowerCase()}
+                    </option>
                   ))}
                 </select>
                 <ChevronDown />
@@ -166,19 +215,28 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
               <div className="relative">
                 <select
                   className={`select-modern ${isUnassigned ? 'cursor-not-allowed opacity-50' : ''}`}
-                  name="status" value={form.status} onChange={handleChange}
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
                   disabled={isUnassigned}
-                  title={isUnassigned ? 'Assign this task to a user before changing its status' : undefined}
+                  title={
+                    isUnassigned
+                      ? 'Assign this task to a user before changing its status'
+                      : undefined
+                  }
                 >
                   {ALL_STATUSES.map((s) => (
-                    <option key={s} value={s}>{s.replace('_', ' ')}</option>
+                    <option key={s} value={s}>
+                      {s.replace('_', ' ')}
+                    </option>
                   ))}
                 </select>
                 <ChevronDown />
               </div>
               {isUnassigned && (
                 <p className="mt-1.5 text-xs text-amber-600">
-                  Assign this task to a user first - status can't change while Unassigned.
+                  Assign this task to a user first - status can't change while
+                  Unassigned.
                 </p>
               )}
             </div>
@@ -196,8 +254,8 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
                 emptyLabel="No active users found"
               />
               <p className="mt-1.5 text-xs text-slate-400">
-                Leave as "Myself" to keep this task for your own list, or search and pick a user.
-                Only active, non-admin users are listed.
+                Leave as "Myself" to keep this task for your own list, or search
+                and pick a user. Only active, non-admin users are listed.
               </p>
             </div>
           )}
@@ -211,8 +269,12 @@ export default function TaskModal({ mode, task, isAdmin, users, onClose, onSubmi
           )}
 
           <div className="mt-6 flex justify-end gap-2.5">
-            <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
-            <button type="submit" className="btn-primary">{isEdit ? 'Save' : 'Create'}</button>
+            <button type="button" className="btn-secondary" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" className="btn-primary">
+              {isEdit ? 'Save' : 'Create'}
+            </button>
           </div>
         </form>
       </div>

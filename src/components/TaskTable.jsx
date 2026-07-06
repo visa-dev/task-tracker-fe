@@ -21,16 +21,36 @@ const CHANGEABLE_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED']
 
 function EditIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+      />
     </svg>
   )
 }
 
 function DeleteIcon() {
   return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.8}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+      />
     </svg>
   )
 }
@@ -39,7 +59,10 @@ function ChevronRight({ open }) {
   return (
     <svg
       className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${open ? 'rotate-90' : ''}`}
-      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
     </svg>
@@ -86,7 +109,9 @@ function StatusPicker({ task, onChangeStatus }) {
                   if (s !== task.status) onChangeStatus(task.id, s)
                 }}
                 className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-slate-50 ${
-                  s === task.status ? 'font-semibold text-brand-700' : 'text-slate-600'
+                  s === task.status
+                    ? 'font-semibold text-brand-700'
+                    : 'text-slate-600'
                 }`}
               >
                 {s.replace('_', ' ')}
@@ -99,14 +124,24 @@ function StatusPicker({ task, onChangeStatus }) {
   )
 }
 
-export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onChangeStatus, onRequestAssign }) {
+export default function TaskTable({
+  tasks,
+  isAdmin,
+  users,
+  onEdit,
+  onDelete,
+  onChangeStatus,
+  onRequestAssign,
+}) {
   const [expandedId, setExpandedId] = useState(null)
 
   if (!tasks.length) {
     return (
       <div className="card-surface flex flex-col items-center justify-center px-6 py-14 text-center">
         <p className="text-sm font-medium text-slate-500">No tasks found.</p>
-        <p className="mt-1 text-xs text-slate-400">Try adjusting your filters, or create a new task.</p>
+        <p className="mt-1 text-xs text-slate-400">
+          Try adjusting your filters, or create a new task.
+        </p>
       </div>
     )
   }
@@ -149,7 +184,9 @@ export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onC
                       <span>{task.title}</span>
                     </button>
                     {task.isOverdue && (
-                      <span className="ml-6 mt-0.5 inline-block text-xs font-medium text-red-600">Overdue</span>
+                      <span className="ml-6 mt-0.5 inline-block text-xs font-medium text-red-600">
+                        Overdue
+                      </span>
                     )}
                     {task.assignedByUsername && (
                       <span className="ml-6 mt-0.5 block text-xs text-slate-400">
@@ -161,11 +198,16 @@ export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onC
                     <StatusPicker task={task} onChangeStatus={onChangeStatus} />
                   </td>
                   <td className="px-5 py-3.5">
-                    <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${PRIORITY_STYLES[task.priority]}`}>
-                      {task.priority.charAt(0) + task.priority.slice(1).toLowerCase()}
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-xs font-medium ${PRIORITY_STYLES[task.priority]}`}
+                    >
+                      {task.priority.charAt(0) +
+                        task.priority.slice(1).toLowerCase()}
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-slate-600">{task.dueDate || '—'}</td>
+                  <td className="px-5 py-3.5 text-slate-600">
+                    {task.dueDate || '—'}
+                  </td>
                   {isAdmin && (
                     <td className="px-5 py-3.5">
                       {task.unassigned ? (
@@ -175,7 +217,9 @@ export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onC
                             value=""
                             onChange={(val) => {
                               if (!val) return
-                              const picked = assignableOptions.find((o) => String(o.value) === String(val))
+                              const picked = assignableOptions.find(
+                                (o) => String(o.value) === String(val),
+                              )
                               onRequestAssign({
                                 taskId: task.id,
                                 taskTitle: task.title,
@@ -188,7 +232,9 @@ export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onC
                           />
                         </div>
                       ) : (
-                        <span className="text-slate-600">{task.ownerUsername}</span>
+                        <span className="text-slate-600">
+                          {task.ownerUsername}
+                        </span>
                       )}
                     </td>
                   )}
@@ -214,9 +260,13 @@ export default function TaskTable({ tasks, isAdmin, users, onEdit, onDelete, onC
                 {isExpanded && (
                   <tr className="bg-slate-50/60">
                     <td colSpan={columnCount} className="px-5 py-4">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Description</p>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        Description
+                      </p>
                       <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">
-                        {task.description?.trim() ? task.description : 'No description provided.'}
+                        {task.description?.trim()
+                          ? task.description
+                          : 'No description provided.'}
                       </p>
                     </td>
                   </tr>
