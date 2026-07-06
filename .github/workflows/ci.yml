@@ -1,0 +1,76 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  lint-and-build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Build
+        env:
+          # Dummy values just to prove the production build succeeds - Vercel's own
+          # deployment injects the *real* VITE_API_BASE_URL / VITE_WS_URL from its
+          # Project Settings -> Environment Variables at build time.
+          VITE_API_BASE_URL: https://api.example.com/api/v1
+          VITE_WS_URL: https://api.example.com/ws
+        run: npm run build
+
+  # Deployment itself is handled by Vercel's native GitHub integration (auto-deploys on
+  # push once the repo is connected in the Vercel dashboard) - see README "Deploying to
+  # Vercel". This job is an optional explicit alternative if you'd rather deploy from
+  # Actions instead of relying on the dashboard integration; it's a no-op unless all
+  # three VERCEL_* secrets below are set.
+  deploy-preview:
+    name: Deploy Preview (optional, Actions-driven)
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Vercel (preview)
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN not set - skipping Actions-driven deploy (Vercel's git integration handles it instead)."
+            exit 0
+          fi
+          npm install --global vercel
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+  deploy-production:
+    name: Deploy Production (optional, Actions-driven)
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Vercel (production)
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN not set - skipping Actions-driven deploy (Vercel's git integration handles it instead)."
+            exit 0
+          fi
+          npm install --global vercel
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
