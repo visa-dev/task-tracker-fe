@@ -37,8 +37,6 @@ apiClient.interceptors.response.use(
       if (!isRedirectingToLogin) {
         isRedirectingToLogin = true
 
-        const lastUsername = localStorage.getItem('lastUsername')
-
         localStorage.removeItem('token')
         localStorage.removeItem('user')
 
