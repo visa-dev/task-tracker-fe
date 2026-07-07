@@ -95,8 +95,7 @@ export default function TaskModal({
         priority: form.priority,
         dueDate: form.dueDate,
       }
-      // A task must be assigned before its status can change - don't even send a status
-      // value for an Unassigned task (it was disabled in the UI, but stay defensive).
+      // A task must be assigned before its status can change - don't send status for Unassigned tasks
       if (!isUnassigned) {
         payload.status = form.status
       }
@@ -104,7 +103,7 @@ export default function TaskModal({
       return
     }
 
-    // Create mode: status is never sent (server always decides IN_PROGRESS vs PENDING/Unassigned).
+    // Create mode: status is never sent (server always decides IN_PROGRESS vs PENDING/Unassigned)
     const payload = {
       title: form.title,
       description: form.description,
@@ -117,7 +116,7 @@ export default function TaskModal({
     onSubmit(payload)
   }
 
-  // Tasks can only go to active, regular (non-admin) users.
+  // Tasks can only go to active, regular (non-admin) users
   const assignableOptions = users
     .filter((u) => u.active && u.role !== 'ROLE_ADMIN')
     .map((u) => ({ value: u.id, label: u.username }))
