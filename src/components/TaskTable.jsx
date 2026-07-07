@@ -69,9 +69,7 @@ function ChevronRight({ open }) {
   )
 }
 
-/** Small inline dropdown styled to look like the status badge itself - click to change status directly.
- *  Disabled entirely (with a tooltip) for a still-Unassigned task, since status can't change until
- *  it has an owner. */
+// Disabled entirely (with a tooltip) for a still-Unassigned task, since status can't change until it has an owner
 function StatusPicker({ task, onChangeStatus }) {
   const [open, setOpen] = useState(false)
   const locked = task.unassigned

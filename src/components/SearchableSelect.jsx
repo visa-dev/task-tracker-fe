@@ -1,12 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-/**
- * A lightweight combobox: click to open, type to filter, click/Enter to pick.
- * Built without an external dependency (e.g. react-select) to keep the bundle
- * small and avoid an extra library just for this one interaction.
- *
- * options: [{ value, label }]
- */
 export default function SearchableSelect({
   options,
   value,

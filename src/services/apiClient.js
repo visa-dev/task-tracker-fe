@@ -10,7 +10,7 @@ const apiClient = axios.create({
   },
 })
 
-// Attach JWT token to every outgoing request.
+// Attach JWT token to every outgoing request
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {
@@ -27,7 +27,6 @@ function isAuthEndpoint(url = '') {
 
 let isRedirectingToLogin = false
 
-
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -42,10 +41,6 @@ apiClient.interceptors.response.use(
 
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-
-        if (lastUsername) {
-          localStorage.setItem('lastUsername', lastUsername)
-        }
 
         toast.error('Your session expired. Please log in again.')
 
