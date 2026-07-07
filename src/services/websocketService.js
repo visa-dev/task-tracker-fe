@@ -1,14 +1,11 @@
 import { Client } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:8080/ws'
+const WS_URL = import.meta.env.VITE_WS_URL
 
 let stompClient = null
 
-/**
- * Connects to the backend STOMP/SockJS endpoint.
- * onConnected: called once the connection is established.
- */
+
 function connect(onConnected) {
   if (stompClient && stompClient.active) {
     return stompClient
@@ -36,11 +33,7 @@ function disconnect() {
   }
 }
 
-/**
- * Subscribes to /topic/tasks. The payload is a sanitized
- * { action: 'CREATE' | 'UPDATE' | 'DELETE', taskId } event only -
- * callers are expected to refetch data themselves (RBAC is enforced server-side on refetch).
- */
+
 function subscribeToTasks(callback) {
   if (!stompClient || !stompClient.connected) return null
 
