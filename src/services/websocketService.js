@@ -5,7 +5,6 @@ const WS_URL = import.meta.env.VITE_WS_URL
 
 let stompClient = null
 
-
 function connect(onConnected) {
   if (stompClient && stompClient.active) {
     return stompClient
@@ -32,7 +31,6 @@ function disconnect() {
     stompClient = null
   }
 }
-
 
 function subscribeToTasks(callback) {
   if (!stompClient || !stompClient.connected) return null
